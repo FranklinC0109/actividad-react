@@ -6,18 +6,17 @@ function Login() {
     const [usuario, setUsuario] = useState('');
     const [contraseña, setContraseña] = useState('');
     const [isHovered, setIsHovered] = useState(false);
-    const navigator = useNavigate();
     const [mostrarMensajeError, setMostrarMensajeError] = useState(false); // Estado para mostrar el mensaje de error
+    
+    const navigator = useNavigate();
 
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-
+    function handleSubmit () {
+        
         try {
-            const exito = await consultarIngreso(usuario, contraseña);
+            const exito = consultarIngreso(usuario, contraseña);
             if (exito) {
                 setMostrarMensajeError(false);
-                navigator("/menu");
+                navigator("/menu")
             } else {
                 setMostrarMensajeError(true); // Mostrar el mensaje de error si la consulta es falsa
             }
@@ -27,11 +26,11 @@ function Login() {
         }
     };
 
-    const consultarIngreso = async (usuario, contraseña) => {
+    const consultarIngreso =  (usuario, contraseña) => {
         const url = `http://localhost:8090/api/usuario/consultarIngreso/${usuario}/${contraseña}`;
         try {
-            const response = await axios.get(url);
-            return response.data.objeto !== null; // Retorna true si existe el usuario, false si no existe (objeto null)
+            const response = axios.get(url);
+            return response.data.objeto !== null ? true : false; // Retorna true si existe el usuario, false si no existe (objeto null)
         } catch (error) {
             console.error('Error al consultar el ingreso:', error);
             throw error; // Propagar el error para manejarlo en handleSubmit
@@ -70,7 +69,7 @@ function Login() {
                     style={isHovered ? { ...css.button, ...css.buttonHover } : css.button}
                     onMouseEnter={() => setIsHovered(true)}
                     onMouseLeave={() => setIsHovered(false)}
-                    onClick={handleSubmit()}
+                    onClick={handleSubmit}
                 >
                     Ingresar
                 </button>
