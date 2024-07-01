@@ -1,23 +1,22 @@
 import { HashRouter, Route, Routes, Link } from "react-router-dom";
 import Menu from "./Menu";
 import Matricula from "./Matricula";
+import '../styles/General.css'
 
 function Rutas() {
     return (
         <HashRouter>
-             <nav className="navbar navbar-dark bg-primary" >
-                <div className="container-fluid">
-                    <li>
-                        <Link to="/menu">Menu principal</Link>
+                <ul className="nav justify-content-center">
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/menu">Menu principal</Link>
                     </li>
-                    <li>
-                        <Link >Gestionar personas</Link>
+                    <li className="nav-item">
+                        <Link className="nav-link">Gestionar personas</Link>
                     </li>
-                    <li>
-                        <Link to="/menu/matriculas">Gestionar matriculas</Link>
+                    <li className="nav-item">
+                        <Link className="nav-link" to="/menu/matriculas">Gestionar matriculas</Link>
                     </li>
-                </div>
-            </nav>
+                </ul>
             <Routes>
                 <Route path="/menu" element={<Menu />} />
                 <Route path="/menu/matriculas" element={<Matricula />} />

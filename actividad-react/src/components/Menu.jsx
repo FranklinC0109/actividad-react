@@ -1,12 +1,10 @@
-import { Link } from "react-router-dom";
-import Rutas from "./Rutas";
+import Buscador from "./Buscador";
 
  const Menu = () => {
 
     return (
         <div>
-             
-           <h2>HOLA SOY EL MENU</h2>
+           <Buscador></Buscador>  
         </div>
     );
 };

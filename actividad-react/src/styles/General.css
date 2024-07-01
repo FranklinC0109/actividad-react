@@ -1,0 +1,19 @@
+.nav-link{
+    color: black;
+}
+
+.nav{
+    background-color: aliceblue;
+}
+
+.btn-tamaño {
+    width: 10rem;
+}
+
+.input-tamaño{
+    width: 20rem;
+}
+
+.d-flex{
+    justify-content: center;
+}
