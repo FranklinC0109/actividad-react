@@ -1,22 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import Menu from "./Menu";
+import { Navigate, useNavigate } from 'react-router-dom';
+
 
 function Login() {
     const [usuario, setUsuario] = useState('');
+    const navigator = useNavigate();
     const [contraseña, setContraseña] = useState('');
-    const [isHovered, setIsHovered] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);// para saber si el mouse esta sobre el boton
     const [mostrarMensajeError, setMostrarMensajeError] = useState(false); // Estado para mostrar el mensaje de error
     
-    const navigator = useNavigate();
 
-    function handleSubmit () {
-        
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
         try {
-            const exito = consultarIngreso(usuario, contraseña);
+            const exito = await consultarIngreso(usuario, contraseña);
             if (exito) {
-                setMostrarMensajeError(false);
-                navigator("/menu")
+                navigator('/Menu'); // Redirigir a la página de menú si la consulta es exitosa
             } else {
                 setMostrarMensajeError(true); // Mostrar el mensaje de error si la consulta es falsa
             }
@@ -26,11 +28,11 @@ function Login() {
         }
     };
 
-    const consultarIngreso =  (usuario, contraseña) => {
+    const consultarIngreso = async (usuario, contraseña) => {
         const url = `http://localhost:8090/api/usuario/consultarIngreso/${usuario}/${contraseña}`;
         try {
-            const response = axios.get(url);
-            return response.data.objeto !== null ? true : false; // Retorna true si existe el usuario, false si no existe (objeto null)
+            const response = await axios.get(url);
+            return response.data.objeto !== null; // Retorna true si existe el usuario, false si no existe (objeto null)
         } catch (error) {
             console.error('Error al consultar el ingreso:', error);
             throw error; // Propagar el error para manejarlo en handleSubmit
