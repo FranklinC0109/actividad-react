@@ -1,5 +1,6 @@
 import Buscador from "./Buscador";
 import Footer from "./Footer";
+import ButtonSalir from "./ButtonSalir";
 import { Link } from "react-router-dom";
 
 const Menu = () => {
@@ -8,6 +9,7 @@ const Menu = () => {
         <div>
             <Footer/>
             <Buscador></Buscador>
+            <ButtonSalir/>
         </div>
     );
 };

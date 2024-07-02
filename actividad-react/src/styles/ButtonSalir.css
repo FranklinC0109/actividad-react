@@ -1,0 +1,14 @@
+.button-salir {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    cursor: pointer;
+}
+
+.button-salir:hover {
+    background-color: darkred;
+}

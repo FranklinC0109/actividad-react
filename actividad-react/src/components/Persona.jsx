@@ -6,6 +6,7 @@ import { obtenerTodos } from '../services/PersonaService';
 import { crearRegitro } from '../services/PersonaService';
 import { borrarRegistro } from '../services/PersonaService';
 import { actualizarRegistro} from '../services/PersonaService';
+import ButtonSalir from "./ButtonSalir";
 
 const Persona = () => {
     const [datos, setDatos] = useState([]);
@@ -21,20 +22,21 @@ const Persona = () => {
     const [editandoIndex, setEditandoIndex] = useState(null); // Estado para controlar el índice de edición
     const [mostrarDialogo, setMostrarDialogo] = useState(false); // Estado para controlar la visibilidad del diálogo
 
-    useEffect(()=>{
+    useEffect(()=>{//usamos el useEffect para que actualice al abrir la ventana
         consultarPersonas();
     },[])
 
-    const consultarPersonas = async () =>{
+    const consultarPersonas = async () =>{// creamos el metodo de consultar personas conde al obtener
         obtenerTodos().then((response)=>{
             setDatos(response.data.objetos);
         }, setTimeout(() => {
         }, 100));
     }
 
-    const agregarPersona = () => {
+    const agregarPersona = () => {//traemos el metodo de agregar personas
         const nuevaPersona = { id, cedula, nombre1, apellido1 };
         crearRegitro(nuevaPersona).then((response)=>{
+            consultarPersonas();// una vez agregada vuelve a consultar los datos para actualizar la tabla, de no quedar guardado no mostrara nada
             console.log(response.data.objeto);
         });
         consultarPersonas();
@@ -43,14 +45,15 @@ const Persona = () => {
         setApellido('');
     };
 
-    const eliminarPersona = (id) => {
+    const eliminarPersona = (id) => {// elimina la persona segun el id enviada
         borrarRegistro(id).then((response)=>{
             console.log(response.data.mensaje);
+            consultarPersonas();
         });
-        consultarPersonas();
+        
     };
 
-    const abrirDialogoEditar = (index) => {
+    const abrirDialogoEditar = (index) => {// abre el dialog asignando los datos que vienen del index seleccionado
         const persona = datos[index];
         setId2(persona.id);
         setCedula2(persona.cedula);
@@ -60,7 +63,7 @@ const Persona = () => {
         setMostrarDialogo(true);
     };
 
-    const cerrarDialogo = () => {
+    const cerrarDialogo = () => {// limpia los datos (que realmente no es muy necesario) y cambia los estados del dialog para no verlo
         setId2('');
         setCedula2('');
         setNombre2('');
@@ -69,15 +72,18 @@ const Persona = () => {
         setMostrarDialogo(false);
     };
 
-    const guardarCambios = () => {
+    const guardarCambios = () => {// guarda los cambios para el objeto seleccionado y cierra la pestaña
         const id = id2;
         const cedula = cedula2;
         const nombre1 = nombre2;
         const apellido1 = apellido2;
         const actualizarPersona = { id, cedula, nombre1, apellido1 };
         actualizarRegistro(actualizarPersona).then((response)=>{
+            consultarPersonas();
             console.log(response.data.objeto)
         });
+        setEditandoIndex(null);
+        setMostrarDialogo(false);
     };
 
     return (
@@ -109,7 +115,7 @@ const Persona = () => {
                 <button
                     className={`button ${id && cedula && nombre1 && apellido1 ? 'buttonHover' : ''}`}
                     onClick={agregarPersona}
-                    disabled={!cedula || !nombre1 || !apellido1}
+                    disabled={!cedula || !nombre1 || !apellido1} //le puse filtro al disable para que solo le deje llenar con cuando no esten los datos
                 >
                     Agregar Persona
                 </button>
@@ -188,6 +194,7 @@ const Persona = () => {
                     </button>
                 </div>
             )}
+            <ButtonSalir/>
         </div>
     );
 };
