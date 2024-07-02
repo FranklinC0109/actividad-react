@@ -52,7 +52,7 @@ function Buscador() {
                 </form>
                 <br></br>
                 <div className='padding-table'>
-                <h2 className="tablaTitulo" >Matriculas asociadas</h2>
+                <h2 className="tablaTitulo" >Matrículas asociadas</h2>
                     <table className="table table-bordered table-hover">
                         <thead>
                             <tr>

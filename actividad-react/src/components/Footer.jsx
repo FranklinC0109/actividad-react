@@ -6,13 +6,13 @@ const Footer = () => {
         <div>
             <ul className="nav justify-content-center">
                 <li className="nav-item">
-                    <Link className="nav-link" to="/menu">Menu principal</Link>
+                    <Link className="nav-link" to="/menu">Menú principal</Link>
                 </li>
                 <li className="nav-item">
                     <Link className="nav-link" to="/menu/persona">Gestionar personas</Link>
                 </li>
                 <li className="nav-item">
-                    <Link className="nav-link" to="/menu/matriculas">Gestionar matriculas</Link>
+                    <Link className="nav-link" to="/menu/matriculas">Gestionar matrículas</Link>
                 </li>
             </ul>
         </div>

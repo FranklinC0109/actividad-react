@@ -138,7 +138,7 @@ function Matricula() {
         <div className="contenedor">
             <Footer />
             <div className="formulario">
-                <h2 className="formularioTitulo">Registro matriculas</h2>
+                <h2 className="formularioTitulo">Registro matrículas</h2>
                 <br />
                 <input
                     type="number"
@@ -168,12 +168,12 @@ function Matricula() {
                     onClick={agregarMatricula}
                     disabled={!tipo || !placa} //le puse filtro al disable para que solo le deje llenar con cuando no esten los datos
                 >
-                    Agregar Matricula
+                    Agregar Matrícula
                 </button>
             </div>
 
             <div className="table table-bordered table-hover padding-table">
-                <h2 className="tablaTitulo">Matriculas</h2>
+                <h2 className="tablaTitulo">Matrículas</h2>
                 <table className="table">
                     <thead>
                         <tr>
@@ -208,7 +208,7 @@ function Matricula() {
             {/* Diálogo de Edición */}
             {mostrarDialogo && (
                 <div className="dialogo">
-                    <h2>Editar Persona</h2>
+                    <h2>Editar Matrícula</h2>
                     <input
                         disabled={true}
                         type="text"
