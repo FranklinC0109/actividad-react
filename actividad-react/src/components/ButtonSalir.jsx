@@ -1,22 +1,20 @@
-import { Link } from "react-router-dom";
-import Login from "./Login";
 import React from 'react';
-
-import { Navigate, useNavigate } from 'react-router-dom';
-import '../styles/ButtonSalir.css';
+import { useNavigate } from 'react-router-dom';
+import '../styles/General.css'
 
 const ButtonSalir = () => {
 
     const navigator = useNavigate();
     const handleSalir = () => {
-        navigator('/Login'); 
-        console.log('Logged out');
+        navigator('/');
     };
 
     return (
-        <button className="button-salir" onClick={handleSalir}>
-            Salir
-        </button>
+        <div className='alinear-centro'>
+            <button className="btn btn-outline-danger input-tamaño" onClick={handleSalir}>
+                Salir
+            </button>
+        </div>
     );
 };
 

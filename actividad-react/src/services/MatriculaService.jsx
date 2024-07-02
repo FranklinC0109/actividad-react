@@ -13,7 +13,7 @@ export const findByCedula = (idpersona) => axios.get(REST_API_BASE_MATRICULA + "
  * Método que obtiene todos los registros de la clase matricula
  * @returns Reponse
  */
-export const findAll = () => axios.get(REST_API_BASE_MATRICULA + "obtenerTodos");
+export const findAll = () => axios.get(REST_API_BASE_MATRICULA + "obtenerTodosM");
 
 /**
  * Método que crear un objeto de la clase matricula

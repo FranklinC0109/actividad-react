@@ -1,4 +1,4 @@
-import { HashRouter, Route, Routes, Link } from "react-router-dom";
+import { HashRouter, Route, Routes} from "react-router-dom";
 import Menu from "./Menu";
 import Matricula from "./Matricula";
 import '../styles/General.css'

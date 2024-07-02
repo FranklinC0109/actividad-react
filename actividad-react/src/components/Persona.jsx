@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Footer from './Footer';
-import { useNavigate } from 'react-router-dom';
-import '../styles/Persona.css'; // Importa el archivo CSS
-import { obtenerTodos } from '../services/PersonaService';
-import { crearRegitro } from '../services/PersonaService';
-import { borrarRegistro } from '../services/PersonaService';
-import { actualizarRegistro} from '../services/PersonaService';
+import '../styles/Formulario.css'; // Importa el archivo CSS
+import { obtenerTodos, crearRegitro, borrarRegistro, actualizarRegistro} from '../services/PersonaService';
 import ButtonSalir from "./ButtonSalir";
 
 const Persona = () => {
     const [datos, setDatos] = useState([]);
-    const navegator = useNavigate();
     const [id, setId] = useState('');
     const [cedula, setCedula] = useState('');
     const [nombre1, setNombre] = useState('');
@@ -22,12 +17,12 @@ const Persona = () => {
     const [editandoIndex, setEditandoIndex] = useState(null); // Estado para controlar el índice de edición
     const [mostrarDialogo, setMostrarDialogo] = useState(false); // Estado para controlar la visibilidad del diálogo
 
-    useEffect(()=>{//usamos el useEffect para que actualice al abrir la ventana
+    useEffect(() => {//usamos el useEffect para que actualice al abrir la ventana
         consultarPersonas();
-    },[])
+    }, [])
 
-    const consultarPersonas = async () =>{// creamos el metodo de consultar personas conde al obtener
-        obtenerTodos().then((response)=>{
+    const consultarPersonas = async () => {// creamos el metodo de consultar personas conde al obtener
+        obtenerTodos().then((response) => {
             setDatos(response.data.objetos);
         }, setTimeout(() => {
         }, 100));
@@ -35,22 +30,20 @@ const Persona = () => {
 
     const agregarPersona = () => {//traemos el metodo de agregar personas
         const nuevaPersona = { id, cedula, nombre1, apellido1 };
-        crearRegitro(nuevaPersona).then((response)=>{
+        crearRegitro(nuevaPersona).then((response) => {
             consultarPersonas();// una vez agregada vuelve a consultar los datos para actualizar la tabla, de no quedar guardado no mostrara nada
-            console.log(response.data.objeto);
         });
-        consultarPersonas();
         setCedula('');
         setNombre('');
         setApellido('');
     };
 
     const eliminarPersona = (id) => {// elimina la persona segun el id enviada
-        borrarRegistro(id).then((response)=>{
+        borrarRegistro(id).then((response) => {
             console.log(response.data.mensaje);
             consultarPersonas();
         });
-        
+
     };
 
     const abrirDialogoEditar = (index) => {// abre el dialog asignando los datos que vienen del index seleccionado
@@ -78,7 +71,7 @@ const Persona = () => {
         const nombre1 = nombre2;
         const apellido1 = apellido2;
         const actualizarPersona = { id, cedula, nombre1, apellido1 };
-        actualizarRegistro(actualizarPersona).then((response)=>{
+        actualizarRegistro(actualizarPersona).then((response) => {
             consultarPersonas();
             console.log(response.data.objeto)
         });
@@ -90,30 +83,32 @@ const Persona = () => {
         <div className="contenedor">
             <Footer />
             <div className="formulario">
-                <h2 className="formularioTitulo">Llenar Datos</h2>
+                <h2 className="formularioTitulo">Registro personas</h2>
+                <br />
                 <input
-                    type="text"
+                    type="number"
                     placeholder="Cédula"
-                    className="input"
+                    className="inputF"
                     value={cedula}
                     onChange={(e) => setCedula(e.target.value)}
                 />
                 <input
                     type="text"
                     placeholder="Nombre"
-                    className="input"
+                    className="inputF"
                     value={nombre1}
                     onChange={(e) => setNombre(e.target.value)}
                 />
                 <input
                     type="text"
                     placeholder="Apellido"
-                    className="input"
+                    className="inputF"
                     value={apellido1}
                     onChange={(e) => setApellido(e.target.value)}
                 />
+                <br />
                 <button
-                    className={`button ${id && cedula && nombre1 && apellido1 ? 'buttonHover' : ''}`}
+                    className='btn btn-outline-primary'
                     onClick={agregarPersona}
                     disabled={!cedula || !nombre1 || !apellido1} //le puse filtro al disable para que solo le deje llenar con cuando no esten los datos
                 >
@@ -121,12 +116,12 @@ const Persona = () => {
                 </button>
             </div>
 
-            <div className="tabla">
+            <div className="table table-bordered table-hover padding-table">
                 <h2 className="tablaTitulo">Personas</h2>
                 <table className="table">
                     <thead>
                         <tr>
-                            <th className="th">ID</th>
+                            <th className="th">Identificador</th>
                             <th className="th">Cédula</th>
                             <th className="th">Nombre</th>
                             <th className="th">Apellido</th>
@@ -141,10 +136,10 @@ const Persona = () => {
                                 <td className="td">{persona.nombre1}</td>
                                 <td className="td">{persona.apellido1}</td>
                                 <td className="td">
-                                    <button className="accionButton editarButton" onClick={() => abrirDialogoEditar(index)}>
+                                    <button className="accionButton btn btn-outline-warning" onClick={() => abrirDialogoEditar(index)}>
                                         Editar
                                     </button>
-                                    <button className="accionButton eliminarButton" onClick={() => eliminarPersona(persona.id)}>
+                                    <button className="accionButton btn btn-outline-danger" onClick={() => eliminarPersona(persona.id)}>
                                         Eliminar
                                     </button>
                                 </td>
@@ -194,7 +189,7 @@ const Persona = () => {
                     </button>
                 </div>
             )}
-            <ButtonSalir/>
+            <ButtonSalir />
         </div>
     );
 };

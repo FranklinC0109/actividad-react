@@ -3,6 +3,7 @@ import axios from 'axios';
 import Menu from "./Menu";
 import { Navigate, useNavigate } from 'react-router-dom';
 import '../styles/Login.css'
+import swal from 'sweetalert';
 
 function Login() {
     const [usuario, setUsuario] = useState('');
@@ -17,9 +18,20 @@ function Login() {
         try {
             const exito = await consultarIngreso(usuario, contraseña);
             if (exito) {
+                swal({
+                    title:"Éxito",
+                    text: "Ingresado con éxito",
+                    icon: "success",
+                    button: "Aceptar"
+                })
                 navigator('/Menu'); // Redirigir a la página de menú si la consulta es exitosa
             } else {
-                setMostrarMensajeError(true); // Mostrar el mensaje de error si la consulta es falsa
+                swal({
+                    title:"Alerta",
+                    text: "Falló al ingresar",
+                    icon: "error",
+                    button: "Aceptar"
+                }) // Mostrar el mensaje de error si la consulta es falsa
             }
         } catch (error) {
             console.error('Error al consultar el ingreso:', error);

@@ -1,15 +1,17 @@
 import Buscador from "./Buscador";
 import Footer from "./Footer";
 import ButtonSalir from "./ButtonSalir";
-import { Link } from "react-router-dom";
+import '../styles/Formulario.css'; // Importa el archivo CSS
 
 const Menu = () => {
 
     return (
-        <div>
+        <div className="contenedor">
             <Footer/>
-            <Buscador></Buscador>
-            <ButtonSalir/>
+            <br />
+            <h2 className="tablaTitulo centrar">Consultar Datos</h2>
+            <Buscador/>
+            <ButtonSalir />
         </div>
     );
 };

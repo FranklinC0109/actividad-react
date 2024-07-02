@@ -17,3 +17,12 @@
 .d-flex{
     justify-content: center;
 }
+
+.alinear-centro{
+    display: flex;
+    justify-content: center;
+}
+
+.padding-table{
+    padding: 20px;
+}
