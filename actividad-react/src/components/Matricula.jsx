@@ -37,7 +37,12 @@ function Matricula() {
     }
 
     const agregarMatricula = () => {//traemos el metodo de agregar personas
-        const idPersona = dato;
+        let idPersona;
+        if(dato != null){
+            idPersona = dato;
+        }else{
+            idPersona = personas[0];
+        }
         const nuevaMatricula = { idMatricula, tipo, placa, idPersona };
         saveMatricula(nuevaMatricula).then((response) => {
             const datos = response.data;
@@ -65,9 +70,25 @@ function Matricula() {
     };
 
     const eliminarMatricula = (id) => {// elimina la persona segun el id enviada
-        deleteMatricula(id).then((response) => {
-            consultarMatriculas();
-        });
+        swal({
+            title:"Alerta",
+            text: "¿Seguro que desea borrar el registro?",
+            icon:"warning",
+            buttons:["Cancelar", "Aceptar"]
+        }).then(respuesta=>{
+            if(respuesta === true){
+                deleteMatricula(id).then((response) => {
+                    consultarMatriculas();
+                    swal({
+                        title:"Éxito",
+                        text: "Registro borrado exitosamente",
+                        icon:"success",
+                        button: "Aceptar"
+                    })
+                });
+            }
+        })
+        
 
     };
 
@@ -98,6 +119,12 @@ function Matricula() {
         const actualizarMatricula = { idMatricula, tipo, placa, idPersona };
         updateMatricula(actualizarMatricula).then((response) => {
             consultarMatriculas();
+            swal({
+                title:"Éxito",
+                text: "Se ha actualizado exitosamente",
+                icon:"success",
+                button:"Aceptar"
+            })
         });
         setEditandoIndex(null);
         setMostrarDialogo(false);
@@ -127,7 +154,7 @@ function Matricula() {
                     value={placa}
                     onChange={(e) => setPlaca(e.target.value)}
                 />
-                <select className="form-select inputF" value={idPersona}
+                <select className="form-select inputF"
                     onChange={handleSelected}>
                     {personas ?
                         personas.map((persona) => {

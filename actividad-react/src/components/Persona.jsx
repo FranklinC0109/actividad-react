@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Footer from './Footer';
 import '../styles/Formulario.css'; // Importa el archivo CSS
-import { obtenerTodos, crearRegitro, borrarRegistro, actualizarRegistro} from '../services/PersonaService';
+import { obtenerTodos, crearRegitro, borrarRegistro, actualizarRegistro } from '../services/PersonaService';
 import ButtonSalir from "./ButtonSalir";
 
 const Persona = () => {
@@ -31,7 +31,23 @@ const Persona = () => {
     const agregarPersona = () => {//traemos el metodo de agregar personas
         const nuevaPersona = { id, cedula, nombre1, apellido1 };
         crearRegitro(nuevaPersona).then((response) => {
-            consultarPersonas();// una vez agregada vuelve a consultar los datos para actualizar la tabla, de no quedar guardado no mostrara nada
+            const datos = response.data;
+            if (datos != null && datos.estado == "SUCCESS") {
+                consultarPersonas(); // una vez agregada vuelve a consultar los datos para actualizar la tabla, de no quedar guardado no mostrara nada
+                swal({
+                    title: "Éxito",
+                    text: "Se ha agregado exitosamente",
+                    icon: "success",
+                    button: "Aceptar"
+                })
+            } else {
+                swal({
+                    title: "Alerta",
+                    text: datos.mensaje,
+                    icon: "error",
+                    button: "Aceptar"
+                })
+            }
         });
         setCedula('');
         setNombre('');
@@ -39,11 +55,35 @@ const Persona = () => {
     };
 
     const eliminarPersona = (id) => {// elimina la persona segun el id enviada
-        borrarRegistro(id).then((response) => {
-            console.log(response.data.mensaje);
-            consultarPersonas();
-        });
 
+        swal({
+            title: "Alerta",
+            text: "¿Seguro que desea borrar el registro?",
+            icon: "warning",
+            buttons: ["Cancelar", "Aceptar"]
+        }).then(respuesta => {
+            if (respuesta === true) {
+                borrarRegistro(id).then((response) => {
+                    const datos = response.data;
+                    if (datos != null && datos === "SUCCESS") {
+                        consultarPersonas();
+                        swal({
+                            title: "Éxito",
+                            text: datos.mensaje,
+                            icon: "success",
+                            button: "Aceptar"
+                        })
+                    } else {
+                        swal({
+                            title: "Alerta",
+                            text: datos.mensaje,
+                            icon: "error",
+                            button: "Aceptar"
+                        })
+                    }
+                });
+            }
+        })
     };
 
     const abrirDialogoEditar = (index) => {// abre el dialog asignando los datos que vienen del index seleccionado
@@ -73,7 +113,12 @@ const Persona = () => {
         const actualizarPersona = { id, cedula, nombre1, apellido1 };
         actualizarRegistro(actualizarPersona).then((response) => {
             consultarPersonas();
-            console.log(response.data.objeto)
+            swal({
+                title: "Éxito",
+                text: "Se ha actualizado exitosamente",
+                icon: "success",
+                button: "Aceptar"
+            })
         });
         setEditandoIndex(null);
         setMostrarDialogo(false);
@@ -89,6 +134,7 @@ const Persona = () => {
                     type="number"
                     placeholder="Cédula"
                     className="inputF"
+                    maxLength={10}
                     value={cedula}
                     onChange={(e) => setCedula(e.target.value)}
                 />
